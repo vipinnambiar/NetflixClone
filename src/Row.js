@@ -4,7 +4,7 @@ import "./Row.css"
 
 const baseURL = "https://image.tmdb.org/t/p/original/";
 
-function Row({title,fetchUrl}) {
+function Row({title,fetchUrl,isLargeRow}) {
 
     //Declare a state variable movies and set its value to Undefined
    const [movies,setMovies] = useState([])
@@ -12,7 +12,7 @@ function Row({title,fetchUrl}) {
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get(fetchUrl)
-          //  console.log(request)
+            console.log(request.data.results)
              setMovies(request.data.results)
             return request;  
         }
@@ -27,8 +27,8 @@ function Row({title,fetchUrl}) {
         
         <div className="row__posters">
            {movies.map(movie => (
-               <img className="row__poster"
-               src= {`${baseURL}${movie.poster_path}`} alt={movie.name}/>
+               <img className={`row__poster  ${isLargeRow && "row__posterLarge"}`}
+               key={movie.id} src={`${baseURL}${isLargeRow ? movie.poster_path : movie.backdrop_path}`} alt={movie.name}/>
            ))}
             </div> 
         </div> 
